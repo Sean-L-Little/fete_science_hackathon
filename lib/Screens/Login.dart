@@ -80,7 +80,7 @@ class _LoginState extends State<Login> {
                   Container(
                     padding: EdgeInsets.all(20.0),
                     child: RaisedButton(
-                      child: Text('Sign In',
+                      child: Text('Connexion',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -103,7 +103,7 @@ class _LoginState extends State<Login> {
                         );
                       },
                       child: Text(
-                        "Create a new account",
+                        "Créez un compte",
                         style: TextStyle(
                           fontSize: 18.0,
                         ),

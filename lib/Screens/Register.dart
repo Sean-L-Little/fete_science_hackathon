@@ -11,6 +11,7 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   bool loading=false;
   bool pwordGood=false;
+  bool orga=false;
   String email='';
   String url='';
   String pword='';
@@ -22,7 +23,7 @@ class _RegisterState extends State<Register> {
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         backgroundColor: Colors.lightGreen[400],
-        title: Text('Register to Twistic'),
+        title: Text('Créez un compte'),
         centerTitle: true,
       ),
       body: Center(
@@ -44,7 +45,7 @@ class _RegisterState extends State<Register> {
                     },
                     decoration: InputDecoration(
                         icon: Icon(Icons.email),
-                        hintText: 'Enter Email'
+                        hintText: 'Entrez votre email'
 
                     ),
                     maxLines: null,
@@ -67,14 +68,27 @@ class _RegisterState extends State<Register> {
                       },
                       decoration: InputDecoration(
                           icon: Icon(Icons.lock),
-                          hintText: 'Enter Password'
+                          hintText: 'Entrez votre mot de passe'
 
                       ),
                       maxLines: 1,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,  //Counter intuitive, I know ...
                       obscureText: true),
-
+                  SizedBox(height:10),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                      child: CheckboxListTile(
+                        title: Text('Organisateur'),
+                        onChanged: (bool val) {
+                          setState(() {
+                            orga = val;
+                          });
+                        },
+                        tristate: false,
+                        value: orga,
+                      ),
+                  ),
 
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -110,7 +124,7 @@ class _RegisterState extends State<Register> {
         loading = true;
       });
       try {
-        await _auth.registerEmail(email, pword).then((value) => null);
+        await _auth.registerEmail(email, pword,orga).then((value) => null);
 
           setState(() {
             loading=false;
