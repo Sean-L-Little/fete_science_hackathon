@@ -10,7 +10,7 @@ class _RegisterState extends State<Register> {
   final Auth _auth = Auth();
   final _formKey = GlobalKey<FormState>();
   bool loading=false;
-
+  bool pwordGood=false;
   String email='';
   String url='';
   String pword='';
@@ -54,8 +54,12 @@ class _RegisterState extends State<Register> {
                   ),
                   SizedBox(height:10),
                   TextFormField(
-                      validator: (val) => val.isEmpty ? "Enter Password" : null,
-                      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+                      validator: (val) => val.length < 6 ? "Mot de passe doit contenir au moins 6 charactères" : null,
+                      onFieldSubmitted: (_) {
+                          if(_formKey.currentState.validate()){
+                              pwordGood=true;
+                          }
+                      },
                       onChanged: (val) {
                         setState(() {
                           pword = val;
@@ -70,41 +74,7 @@ class _RegisterState extends State<Register> {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.visiblePassword,  //Counter intuitive, I know ...
                       obscureText: true),
-                  SizedBox(height:10),
-                  TextFormField(
-                      validator: (val) => val.isEmpty ? "Enter Nickname" : null,
-                      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                      onChanged: (val) {
-                        setState(() {
-                          nickname = val;
-                        });
-                      },
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.account_box),
-                          hintText: 'Enter Nickname'
 
-                      ),
-                      maxLines: 1,
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      ),
-                  SizedBox(height:10),
-                  TextFormField(
-                      validator: (val) => val.isEmpty ? "Enter Image URL" : null,
-                      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                      onChanged: (val) {
-                        setState(() {
-                          url = val;
-                        });
-                      },
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.photo),
-                          hintText: 'Enter Image URL'
-
-                      ),
-                      textInputAction: TextInputAction.next,
-                      keyboardType: TextInputType.text,
-                      ),
 
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -113,11 +83,14 @@ class _RegisterState extends State<Register> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                        ),),
+                        ),
+                      ),
                       color: Colors.lightGreen[400],
                       onPressed: () async {
                         createAcc();
-                        Navigator.pop(context);
+                        if(pwordGood) {
+                          Navigator.pop(context);
+                        }
                       },
                     ),
                   ),
@@ -137,17 +110,17 @@ class _RegisterState extends State<Register> {
         loading = true;
       });
       try {
-        await _auth.registerEmail(email, pword,nickname,url).then((value) => null);
+        await _auth.registerEmail(email, pword).then((value) => null);
 
           setState(() {
             loading=false;
-
+            Navigator.pop(context);
           });
 
       } on Exception catch(e){
         setState(() {
           print(e.toString());
-          loading=false;
+
         });
       }
     }

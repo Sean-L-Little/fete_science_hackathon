@@ -51,7 +51,7 @@ packages:
     source: hosted
     version: "1.1.0-nullsafety.1"
   cloud_firestore:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
@@ -128,7 +128,7 @@ packages:
     source: hosted
     version: "5.2.1"
   firebase_auth:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: firebase_auth
       url: "https://pub.dartlang.org"
@@ -196,7 +196,7 @@ packages:
     source: hosted
     version: "3.0.0"
   flutter_map:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_map
       url: "https://pub.dartlang.org"
@@ -213,7 +213,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -381,7 +381,7 @@ packages:
     source: hosted
     version: "1.0.5"
   provider:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"

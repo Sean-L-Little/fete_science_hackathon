@@ -40,13 +40,13 @@ class Auth {
     }
   }
 
-  Future registerEmail(String email, String pword, String nickname, String url) async {
+  Future registerEmail(String email, String pword) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: pword);
 
-      await userCredential.user.updateProfile(displayName: nickname, photoURL: url);
+    //  await userCredential.user.updateProfile(displayName: nickname, photoURL: url);
 
       signInEmail(_auth.currentUser.email, pword);
 
