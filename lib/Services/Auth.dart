@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'Database.dart';
 
 class Auth {
 
   final FirebaseAuth _auth=FirebaseAuth.instance;
+  final Database _db = Database();
 
   Stream<User> get user{
     return _auth.authStateChanges();
@@ -39,8 +41,36 @@ class Auth {
       print(e.toString());
     }
   }
+  Future changeURL(String url) async{
+    await _auth.currentUser.updateProfile(photoURL: url);
+    await _db.changeURL(_auth.currentUser.uid,url);
 
-  Future registerEmail(String email, String pword) async {
+  }
+
+  Future changeDisplayName(String pseudo) async{
+    await _auth.currentUser.updateProfile(displayName: pseudo);
+    await _db.changeDisplayName(_auth.currentUser.uid,pseudo);
+  }
+
+
+  Future changePhoneNumber(String number) async{
+    //await _auth.currentUser.updatePhoneNumber(number);
+    await _db.changePhoneNumber(_auth.currentUser.uid,number);
+  }
+
+  Future changeFacebook(String fb) async{
+    //await _auth.currentUser.updatePhoneNumber(number);
+    await _db.changeFacebook(_auth.currentUser.uid,fb);
+  }
+
+  Future changeTwitter(String twit) async{
+    //await _auth.currentUser.updatePhoneNumber(number);
+    await _db.changeFacebook(_auth.currentUser.uid,twit);
+  }
+
+
+  Future registerEmail(String email, String pword, bool orga) async {
+
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: email,
@@ -49,6 +79,9 @@ class Auth {
     //  await userCredential.user.updateProfile(displayName: nickname, photoURL: url);
 
       signInEmail(_auth.currentUser.email, pword);
+
+      _db.addUser(_auth.currentUser.uid, orga);
+
 
       return userCredential.user;
     } catch (e){
