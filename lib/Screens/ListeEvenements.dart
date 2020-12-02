@@ -56,7 +56,26 @@ class _ListeEvenementState extends State<ListeEvenement> {
                 return Card(
                   color: Colors.lightGreen[100],
                   child: ListTile(
-                    leading: Text('test' + i.toString())
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage:
+                      snapshot.data.docs[i].data()["fields"]["apercu"] != null ? NetworkImage(snapshot.data.docs[i].data()["fields"]["apercu"]) : NetworkImage("https://blog.hubspot.com/hubfs/Shrug-Emoji.jpg"),
+                    ),
+                    title: snapshot.data.docs[i].data()["fields"]["titre_fr"] != null ?
+                    Text(snapshot.data.docs[i].data()["fields"]["titre_fr"])
+                    :Text('Pas de titre'),
+                    subtitle: snapshot.data.docs[i].data()["fields"]["description_fr"] != null ?
+                    Text(snapshot.data.docs[i].data()["fields"]["description_fr"])
+                    :Text('Pas de description'),
+                    trailing: RaisedButton(
+                        color: Colors.lightGreen[600],
+                        child:Text(
+                          'Voir Plus',
+                          style: TextStyle(color: Colors.white),), onPressed:() {
+                          // Navigator.push(context,
+                          //   MaterialPageRoute(builder: (context) => DetailsEvenement(data: snapshot.data.docs[i].data())),
+                          // );
+                    }),
                   )
                 );
             });
