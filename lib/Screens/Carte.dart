@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fete_science_app/Services/Auth.dart';
+import 'package:fete_science_app/Services/Database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
@@ -15,74 +17,66 @@ class _CarteState extends State<Carte> {
   LatLng _center = LatLng(48.856614, 2.3522219);
 
   final PopupController _popupController = PopupController();
+  final Database _dbService = Database();
 
-  List<Marker> markers;
-  int pointIndex;
-  List points = [
-    LatLng(51.5, -0.09),
-    LatLng(49.8566, 3.3522),
-  ];
+  List<Marker> markers = new List<Marker>();
+
+  void initMarker() async{
+    _dbService.getEvenementsStream();
+    FirebaseFirestore.instance
+        .collection('/Evenements')
+        .get()
+        .then((QuerySnapshot querySnapshot) => {
+      querySnapshot.docs.forEach((doc) {
+        try{
+          if(doc["fields"]!=null && doc["geometry"]!=null){
+            String newLocation = doc["fields.ville"] != null ? doc["fields.ville"] : " ";
+            String newName = doc["fields.titre_fr"] != null ? doc["fields.titre_fr"] : " ";
+            String newDesc = doc["fields.description_fr"] != null ? doc["fields.description_fr"] : " ";
+            double newLat = doc["geometry.coordinates"][1] != null ? doc["geometry.coordinates"][1] : 0;
+            double newLong = doc["geometry.coordinates"][0] != null ? doc["geometry.coordinates"][0] : 0;
+          setState(() { // PAS SUR
+            markers.add(PinMarker(
+              pin: Pin(location: newLocation,
+                  name: newName,
+                  desc: newDesc,
+                  lat: newLat,
+                  long: newLong),
+            ));
+            print(markers.length.toString());
+          });
+
+
+          }
+        }catch(error){
+        }
+      })
+
+    });
+  }
+
 
   @override
   void initState() {
-    pointIndex = 0;
-    markers = [
-      Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 30,
-        width: 30,
-        point: points[pointIndex],
-        builder: (ctx) => Icon(Icons.pin_drop),
-      ),
-      Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 30,
-        width: 30,
-        point: LatLng(53.3498, -6.2603),
-        builder: (ctx) => Icon(Icons.pin_drop),
-      ),
-      Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 30,
-        width: 30,
-        point: LatLng(53.3488, -6.2613),
-        builder: (ctx) => Icon(Icons.pin_drop),
-      ),
-      Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 30,
-        width: 30,
-        point: LatLng(53.3488, -6.2613),
-        builder: (ctx) => Icon(Icons.pin_drop),
-      ),
-      Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 30,
-        width: 30,
-        point: LatLng(48.8566, 2.3522),
-        builder: (ctx) => Icon(Icons.pin_drop),
-      ),
-      Marker(
-        anchorPos: AnchorPos.align(AnchorAlign.center),
-        height: 30,
-        width: 30,
-        point: LatLng(49.8566, 3.3522),
-        builder: (ctx) => Icon(Icons.pin_drop),
-      ),
-      PinMarker(
-        pin: Pin(
-          location: 'Paris',
-          name: 'Eiffel Tower',
-          desc:
-              ' Monument de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  de paris  ezaez zaeze azezae zaeaz eazezae aeae aze aea ze',
-          lat: 48.857661,
-          long: 2.295135,
-        ),
-      ),
-    ];
+    markers.add(PinMarker(
+      pin: Pin(location: "TEST",
+          name: "name",
+          desc: "desc",
+          lat: 42,
+          long: 2),
+    ));
+    initMarker();
 
     super.initState();
+    /**
+     * setState((){});
+        setState(() {
+        markers = markers;
+        });
+     */
+
   }
+
 
   Widget build(BuildContext context) {
     return new FlutterMap(
@@ -133,4 +127,3 @@ class _CarteState extends State<Carte> {
     );
   }
 }
-
