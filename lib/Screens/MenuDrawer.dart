@@ -29,18 +29,27 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   style: TextStyle(fontSize: 20.0)) : Text('Loading'),
             ),
             RaisedButton(
-              child: Text('Deconnexion'),
-              onPressed: () async {
-                dynamic res = await _auth.signOut();
-                if (res == null) print("ffs");
-              },
-            ),
-            RaisedButton(
               child: Text('Modifier Profil'),
               onPressed: () async {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => EditUser()),
                 );
+              },
+            ),
+            RaisedButton(
+              child: Text('Mes Parcours'),
+              onPressed: () async {
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => EditUser()),
+                );
+              },
+            ),
+            RaisedButton(
+              child: Text('Deconnexion'),
+              color: Colors.red[300],
+              onPressed: () async {
+                dynamic res = await _auth.signOut();
+                if (res == null) print("ffs");
               },
             ),
           ]

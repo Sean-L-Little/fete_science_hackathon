@@ -60,16 +60,24 @@ class _UtilisateurState extends State<Utilisateur> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /*2*/
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child:
-                  (widget.data["displayName"] != null && widget.data["displayName"] != "") ?
-                  Text(widget.data["displayName"],
-                    style: TextStyle(fontSize: 25),
-                  )
-                      :Text("Pas de Pseudo !",
-                    style: TextStyle(fontSize: 25),
-                  ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child:
+                      (widget.data["displayName"] != null && widget.data["displayName"] != "") ?
+                      Text(widget.data["displayName"],
+                        style: TextStyle(fontSize: 25),
+                      )
+                          :Text("Pas de Pseudo !",
+                        style: TextStyle(fontSize: 25),
+                      ),
+
+                    ),
+                    SizedBox(width: 10.0),
+                    (widget.data["organisateur"] != null && widget.data["organisateur"] != false) ?
+                    Icon(FontAwesomeIcons.userShield,size: 25.0,): SizedBox(width: 10.0),
+                  ],
                 ),
                 (widget.data["phoneNumber"] != null && widget.data["phoneNumber"] != "") ?
                 Text(
