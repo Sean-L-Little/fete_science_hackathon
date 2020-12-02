@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "465962442920",
-    "firebase_url": "https://fete-science-hackathon.firebaseio.com",
-    "project_id": "fete-science-hackathon",
-    "storage_bucket": "fete-science-hackathon.appspot.com"
+    "project_number": "763676028532",
+    "firebase_url": "https://fete-science-2.firebaseio.com",
+    "project_id": "fete-science-2",
+    "storage_bucket": "fete-science-2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:465962442920:android:4c483e756b650d7c83e29d",
+        "mobilesdk_app_id": "1:763676028532:android:209292417394c7d91dab21",
         "android_client_info": {
-          "package_name": "com.istic.groupei.fete_science_app"
+          "package_name": "com.istic.fete_science_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "465962442920-ive4rq82cpc61k0h8i8kebun4c05809j.apps.googleusercontent.com",
+          "client_id": "763676028532-ugnqjss7qh25fdu36fv2a5l8lk90bd3t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBklx3xencCiIsdDBrV2VlvOaeOINRFltc"
+          "current_key": "AIzaSyDTDYzUigi7qOx6PMyxdaPjv4Eu3gbc8w4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "465962442920-ive4rq82cpc61k0h8i8kebun4c05809j.apps.googleusercontent.com",
+              "client_id": "763676028532-ugnqjss7qh25fdu36fv2a5l8lk90bd3t.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

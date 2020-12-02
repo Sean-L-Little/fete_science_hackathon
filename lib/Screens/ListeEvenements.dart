@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Services/Database.dart';
+import 'DetailsEvenement.dart';
 import 'MenuDrawer.dart';
 
 class Accueil extends StatefulWidget {
@@ -47,8 +48,11 @@ class _ListeEvenementState extends State<ListeEvenement> {
     return StreamBuilder<QuerySnapshot>(
         stream: dbService.getEvenementsStream(),
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Text('Chargement des évènements ...');
+          }
+          else if(snapshot.data==null){
+            return Text('Pas d\'évènements disponible');
           }else if(snapshot.data.docs.length>0){
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
@@ -72,9 +76,9 @@ class _ListeEvenementState extends State<ListeEvenement> {
                         child:Text(
                           'Voir Plus',
                           style: TextStyle(color: Colors.white),), onPressed:() {
-                          // Navigator.push(context,
-                          //   MaterialPageRoute(builder: (context) => DetailsEvenement(data: snapshot.data.docs[i].data())),
-                          // );
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => DetailsEvenement(data: snapshot.data.docs[i].data())),
+                          );
                     }),
                   )
                 );
