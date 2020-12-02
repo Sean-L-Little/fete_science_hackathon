@@ -54,41 +54,31 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
       padding: const EdgeInsets.all(32),
       child: Row(
         children: [
-          Flexible(
+          Expanded(
             /*1*/
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /*2*/
                 Row(
                   children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child:
-                        (widget.data["fields"]["titre_fr"] != null) ?
-                        Text(widget.data["fields"]["titre_fr"],
-                          style: TextStyle(fontSize: 25),
-                        )
-                            :Text("Pas de titre !",
-                          style: TextStyle(fontSize: 25),
-                        ),
-
+                    Flexible(
+                      child:
+                      (widget.data["fields"]["titre_fr"] != null) ?
+                      Text(widget.data["fields"]["titre_fr"],
+                        style: TextStyle(fontSize: 25),
+                      )
+                          :Text("Pas de titre !",
+                        style: TextStyle(fontSize: 25),
                       ),
                     ),
-                    SizedBox(width: 10.0),
-                    (widget.data["organisateur"] != null && widget.data["organisateur"] != false) ?
-                    Icon(FontAwesomeIcons.userShield,size: 25.0,): SizedBox(width: 10.0),
                   ],
                 ),
                 (widget.data["fields"]["description_longue_fr"] != null) ?
-                Expanded(
-                  child: Text(
-                    widget.data["fields"]["description_longue_fr"],
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey[500],
-                    ),
+                Text(
+                  widget.data["fields"]["description_longue_fr"],
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey[500],
                   ),
                 )
                     :Text(
@@ -114,23 +104,25 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
         title: Text('Evenement : '+ (widget.data["fields"]["identifiant"] != null ? widget.data["fields"]["identifiant"]: 'Pas d\'identifiant')),
         centerTitle: true,
       ),
-      body: Column(
-        children: <Widget>[
-          widget.data["fields"]["image_source"] != null ?
-          Image.network(
-            widget.data["fields"]["image_source"],
-            width: 600,
-            height: 240,
-            fit: BoxFit.cover,)
-              : Image.network("https://blog.hubspot.com/hubfs/Shrug-Emoji.jpg",
-            width: 600,
-            height: 240,
-            fit: BoxFit.cover,),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            widget.data["fields"]["image_source"] != null ?
+            Image.network(
+              widget.data["fields"]["image_source"],
+              width: 600,
+              height: 240,
+              fit: BoxFit.cover,)
+                : Image.network("https://blog.hubspot.com/hubfs/Shrug-Emoji.jpg",
+              width: 600,
+              height: 240,
+              fit: BoxFit.cover,),
 
+            buttonSection,
+            titleSection,
 
-          titleSection,
-          buttonSection,
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -140,6 +132,9 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        SizedBox(
+          height:20.0,
+        ),
         Icon(icon, color: color),
         Container(
           margin: const EdgeInsets.only(top: 8),
