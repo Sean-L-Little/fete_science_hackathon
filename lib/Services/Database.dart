@@ -49,8 +49,8 @@ class Database{
   Future addUser(uid,organisateur) async{
     return usersCollection.doc(uid).set({
       'organisateur':organisateur,
-      'displayName':'',
-      'photoURL':'',
+      'displayName':'Anonymous',
+      'photoURL':'https://thispersondoesnotexist.com/image',
       'phoneNumber':'',
       'facebook':'',
       'twitter': '',

@@ -93,7 +93,7 @@ class _RegisterState extends State<Register> {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 10.0),
                     child: RaisedButton(
-                      child: Text('Create Account',
+                      child: Text('Créer Compte',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,

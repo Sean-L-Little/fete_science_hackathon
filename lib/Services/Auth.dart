@@ -65,7 +65,7 @@ class Auth {
 
   Future changeTwitter(String twit) async{
     //await _auth.currentUser.updatePhoneNumber(number);
-    await _db.changeFacebook(_auth.currentUser.uid,twit);
+    await _db.changeTwitter(_auth.currentUser.uid,twit);
   }
 
 

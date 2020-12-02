@@ -146,17 +146,6 @@ class _EditUserState extends State<EditUser> {
                       },
                     ),
                   ),
-                  RaisedButton(
-                    child: Text('Deconnexion',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      ),),
-                    color: Colors.lightGreen[400],
-                    onPressed: () async {
-                      _auth.signOut();
-                    },
-                  ),
                 ]),
           ),
         ),
