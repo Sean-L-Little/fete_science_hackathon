@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:fete_science_app/Services/Auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 
 class DetailsEvenement extends StatefulWidget {
-  DetailsEvenement({Key key, this.title, this.user, this.data,}) : super(key: key);
+  DetailsEvenement({Key key, this.id, this.title, this.user, this.data,}) : super(key: key);
   final User user;
   final String title;
   final Map<String, dynamic> data;
+  final String id;
 
   @override
   _DetailsEvenementState createState() => _DetailsEvenementState();
@@ -18,9 +21,20 @@ class DetailsEvenement extends StatefulWidget {
 
 class _DetailsEvenementState extends State<DetailsEvenement> {
   final Auth _auth = Auth();
+  final Database _dbService = Database();
+
+  bool voted=false;
+
+  double nb_etoiles=0;
+  double nb_votes=0;
+
 
   @override
   Widget build(BuildContext context) {
+
+    widget.data["nb_etoiles"] != null ? nb_etoiles=widget.data["nb_etoiles"]:nb_etoiles=0;
+    widget.data["nb_votes"] != null ? nb_votes=widget.data["nb_votes"]:nb_votes=0;
+
     Color color = Theme.of(context).primaryColor;
     Widget buttonSection = Container(
       child: Row(
@@ -45,6 +59,44 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
               child: _buildButtonColumn(color, FontAwesomeIcons.twitter, 'Twitter'))
               : _buildButtonColumn(Colors.grey[500], FontAwesomeIcons.twitter, 'Twitter'
           ),
+        ],
+      ),
+    );
+
+    Widget starSection = Container(
+      padding: EdgeInsets.only(top: 10.0),
+      child: Column(
+        children: [
+          RatingBar.builder(
+            initialRating: nb_votes != 0 ? nb_etoiles/nb_votes : 3,
+            minRating: 0.5,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: EdgeInsets.symmetric(horizontal: 0.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              size: 16.0,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+
+              if(!voted) {
+
+                setState(() {
+                  nb_votes+=1;
+                  voted = true;
+                  nb_etoiles+=rating;
+                });
+
+                _dbService.changeRating(
+                    widget.id, nb_etoiles, nb_votes);
+              }
+            },
+          ),
+          SizedBox(height:5.0),
+          Text(nb_votes.toString().substring(0,1) + " votes",
+          style: TextStyle(fontSize: 18.0),),
         ],
       ),
     );
@@ -117,8 +169,8 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
               width: 600,
               height: 240,
               fit: BoxFit.cover,),
-
             buttonSection,
+            starSection,
             titleSection,
 
           ],

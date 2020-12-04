@@ -162,15 +162,6 @@ class _CarteState extends State<Carte> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
-      appBar: AppBar(
-        backgroundColor: Colors.lightGreen[600],
-        title: Text('Carte'),
-        centerTitle: true,
-      ),
-      drawer: MenuDrawer(user: widget.user),
-      body: loadMap(),
-      );
+    return loadMap();
   }
 }

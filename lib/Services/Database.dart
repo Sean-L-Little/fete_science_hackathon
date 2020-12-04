@@ -20,6 +20,41 @@ class Database {
     return evenementsGrosseCollection.snapshots();
   }
 
+  Stream<QuerySnapshot> getParcoursStream(){
+    return parcoursCollection.snapshots();
+  }
+
+  Future<List<String>> getEvenementsForParcours(uid){
+    return parcoursCollection.doc(uid).get().then((value) {
+      return List.from(value.get("parcours"));
+    });
+  }
+
+  // QuerySnapshot getEventFromID(id){
+  //   evenementsGrosseCollection.doc(id).get().then((value) {
+  //     return value;
+  //   });
+  // }
+
+  Future changeRating(uid, nbEtoiles,nbVotes) async {
+    // double nb_etoiles = 0;
+    // double nb_votes = 0;
+    // await usersCollection.doc(uid).get().then((docu) {
+    //   docu.get("nb_etoiles") != null ? nb_etoiles=docu.get("nb_etoiles") : nb_etoiles=0;
+    //   docu.get("nb_votes") != null ? nb_votes=docu.get("nb_votes") : nb_votes=0;
+    // });
+    print("UID pour les votes : " +uid);
+    return evenementsGrosseCollection
+        .doc(uid)
+        .update({
+      'nb_etoiles': nbEtoiles,
+      'nb_votes' : nbVotes,
+    })
+        .then((value) => print("User Updated ;)"))
+        .catchError((error) => print("Error Updating User :c " + error));
+  }
+
+
   Future changeURL(uid, url) async {
     return usersCollection
         .doc(uid)

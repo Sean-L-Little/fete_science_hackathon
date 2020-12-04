@@ -4,42 +4,26 @@ import 'package:fete_science_app/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fete_science_app/Services/Auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Utilisateur.dart';
 
-class ListeUtilisateurs extends StatefulWidget {
-  ListeUtilisateurs({Key key, this.title, this.user}) : super(key: key);
-  final User user;
-  final String title;
-
-  @override
-  _ListeUtilisateursState createState() => _ListeUtilisateursState();
-}
-
-class _ListeUtilisateursState extends State<ListeUtilisateurs> {
-  final Auth _auth = Auth();
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
-      appBar: AppBar(
-        backgroundColor: Colors.lightGreen[600],
-        title: Text('Utilisateurs'),
-        centerTitle: true,
-      ),
-      drawer: MenuDrawer(user: widget.user),
-      body: Column(
-        children:<Widget> [
-          BuildUser(),
-        ],
-      ),
-    );
-  }
+// class ListeUtilisateurs extends StatefulWidget {
+//   ListeUtilisateurs({Key key, this.title, this.user}) : super(key: key);
+//   final User user;
+//   final String title;
+//
+//   @override
+//   _ListeUtilisateursState createState() => _ListeUtilisateursState();
+// }
+//
+// class _ListeUtilisateursState extends State<ListeUtilisateurs> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BuildUser();
+//   }
+// }
 
 
-
-}
 class BuildUser extends StatefulWidget {
   BuildUser({Key key, this.user}) : super(key: key);
 

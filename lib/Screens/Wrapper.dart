@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 
 import 'EditUser.dart';
 import 'Login.dart';
+import 'Navigation.dart';
 import 'Utilisateur.dart';
 
 class Wrapper extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    return user != null ? Accueil(title: "Fête de la Science", user: user) : Login();
+    return user != null ? Navigation(title: "Fête de la Science", user: user) : Login();
   }
   
   
