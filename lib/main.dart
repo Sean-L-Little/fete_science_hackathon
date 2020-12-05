@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'Screens/Test.dart';
 import 'Screens/Wrapper.dart';
 import 'Services/Auth.dart';
 
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
     value: Auth().user,
     child: MaterialApp(
-    title: 'Twistic',
+    title: 'Fête de la Science',
     home: Wrapper(),
     ),
     );

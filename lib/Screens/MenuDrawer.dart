@@ -1,7 +1,8 @@
+import 'package:fete_science_app/Screens/Parcours/MesParcours.dart';
 import 'package:fete_science_app/Services/Auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'EditUser.dart';
+import 'Utilisateurs/EditUser.dart';
 
 class MenuDrawer extends StatefulWidget {
   MenuDrawer({Key key, this.title, this.user}) : super(key: key);
@@ -32,7 +33,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               child: Text('Modifier Profil'),
               onPressed: () async {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EditUser()),
+                    MaterialPageRoute(builder: (context) => EditUser(user: widget.user)),
                 );
               },
             ),
@@ -40,7 +41,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               child: Text('Mes Parcours'),
               onPressed: () async {
                 Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => EditUser()),
+                  MaterialPageRoute(builder: (context) => MesParcours(user: widget.user)),
                 );
               },
             ),

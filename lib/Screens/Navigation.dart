@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'ListeEvenements.dart';
-import 'ListeParcours.dart';
-import 'ListeUtilisateurs.dart';
-import 'Carte.dart';
+import 'Evenements/ListeEvenements.dart';
+import 'Parcours/ListeParcours.dart';
+import 'Utilisateurs/ListeUtilisateurs.dart';
+import 'Carte/Carte.dart';
 import 'MenuDrawer.dart';
-import 'Parcours.dart';
+import 'Parcours/Parcours.dart';
 
 class Navigation extends StatefulWidget {
   Navigation({Key key, this.title, this.user}) : super(key: key);

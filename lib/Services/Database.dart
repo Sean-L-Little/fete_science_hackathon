@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fete_science_app/Screens/PinCarte.dart';
+import 'package:fete_science_app/Screens/Carte/PinCarte.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 class Database {
@@ -119,6 +119,17 @@ class Database {
         })
         .then((value) => print("User Created ;)"))
         .catchError((error) => print("Error Creating User :c " + error));
+  }
+
+  Future createParcours(String uid, String parcoursName, String parcoursDesc) {
+    return parcoursCollection.add({
+      'nom': parcoursName,
+      'description': parcoursDesc,
+      'user_id': uid,
+      'prive': true,
+      'parcours':[],
+    });
+
   }
 
 }

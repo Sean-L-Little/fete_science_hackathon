@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../Services/Database.dart';
+import '../../Services/Database.dart';
 import 'DetailsEvenement.dart';
-import 'MenuDrawer.dart';
+import '../MenuDrawer.dart';
 
 // class Accueil extends StatefulWidget {
 //   Accueil({Key key, this.title, this.user}) : super(key: key);
@@ -49,7 +49,9 @@ class _ListeEvenementState extends State<ListeEvenement> {
         stream: dbService.getEvenementsStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text('Chargement des évènements ...');
+            return Center(
+                child: CircularProgressIndicator()
+            );
           }
           else if(snapshot.data==null){
             return Text('Pas d\'évènements disponible');
@@ -66,10 +68,17 @@ class _ListeEvenementState extends State<ListeEvenement> {
                       snapshot.data.docs[i].data()["fields"]["apercu"] != null ? NetworkImage(snapshot.data.docs[i].data()["fields"]["apercu"]) : NetworkImage("https://blog.hubspot.com/hubfs/Shrug-Emoji.jpg"),
                     ),
                     title: snapshot.data.docs[i].data()["fields"]["titre_fr"] != null ?
-                    Text(snapshot.data.docs[i].data()["fields"]["titre_fr"])
+                    Text(
+                      snapshot.data.docs[i].data()["fields"]["titre_fr"],
+                      style: TextStyle(fontSize: 18.0),
+                    )
                     :Text('Pas de titre'),
                     subtitle: snapshot.data.docs[i].data()["fields"]["description_fr"] != null ?
-                    Text(snapshot.data.docs[i].data()["fields"]["description_fr"])
+                    Text(
+                        snapshot.data.docs[i].data()["fields"]["description_fr"],
+                      style: TextStyle(fontSize: 14.0),
+                        textAlign: TextAlign.justify,
+                    )
                     :Text('Pas de description'),
                     trailing: RaisedButton(
                         color: Colors.lightGreen[600],
@@ -77,7 +86,7 @@ class _ListeEvenementState extends State<ListeEvenement> {
                           'Voir Plus',
                           style: TextStyle(color: Colors.white),), onPressed:() {
                           Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => DetailsEvenement(id: snapshot.data.docs[i].id, data: snapshot.data.docs[i].data())),
+                            MaterialPageRoute(builder: (context) => DetailsEvenement(user: widget.user,id: snapshot.data.docs[i].id, data: snapshot.data.docs[i].data())),
                           );
                     }),
                   )

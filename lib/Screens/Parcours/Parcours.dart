@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fete_science_app/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'DetailsEvenement.dart';
-import 'MenuDrawer.dart';
+import '../Evenements/DetailsEvenement.dart';
+import '../MenuDrawer.dart';
 
 class Parcours extends StatefulWidget {
   Parcours({Key key, this.id, this.data, this.title, this.user}) : super(key: key);

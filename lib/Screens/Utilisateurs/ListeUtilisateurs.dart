@@ -40,8 +40,10 @@ class _BuildUserState extends State<BuildUser> {
     return StreamBuilder<QuerySnapshot>(
         stream:  _dbService.getUsersStream(),
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
-            return Text('En attente de Connexion ...');
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: CircularProgressIndicator()
+            );
           }else if(snapshot.data ==null){
             return Text('Data Null !!!');
           } else if(snapshot.data.docs.length>0){

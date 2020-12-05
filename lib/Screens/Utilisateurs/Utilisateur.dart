@@ -123,7 +123,6 @@ class _UtilisateurState extends State<Utilisateur> {
             height: 240,
             fit: BoxFit.cover,),
                 
-
             titleSection,
             buttonSection,
           ],

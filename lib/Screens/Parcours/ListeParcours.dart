@@ -15,6 +15,8 @@ class ListeParcours extends StatefulWidget {
 }
 
 class _ListeParcoursState extends State<ListeParcours> {
+
+
   final Database _dbService = Database();
   @override
   Widget build(BuildContext context) {
@@ -22,24 +24,35 @@ class _ListeParcoursState extends State<ListeParcours> {
         stream: _dbService.getParcoursStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text('Chargement des évènements ...');
+            return Center(
+                child: CircularProgressIndicator()
+            );
           }
           else if(snapshot.data==null){
             return Text('Pas d\'évènements disponible');
           }else if(snapshot.data.docs.length>0){
             return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, i) {
-                  if(snapshot.data.docs[i].data()["public"] != null && !snapshot.data.docs[i].data()["public"]) {
+                  if(snapshot.data.docs[i].data()["prive"] != null && !snapshot.data.docs[i].data()["prive"]) {
                     return Card(
                         color: Colors.lightGreen[100],
                         child: ListTile(
                           title: snapshot.data.docs[i].data()["nom"] != null ?
-                          Text(snapshot.data.docs[i].data()["nom"])
+                          Text(snapshot.data.docs[i].data()["nom"],
+                          style: TextStyle(
+                            fontSize: 24.0
+                          ),)
                               : Text('Parcours sans nom'),
                           subtitle: snapshot.data.docs[i]
                               .data()["description"] != null ?
-                          Text(snapshot.data.docs[i].data()["description"])
+                          Text(snapshot.data.docs[i].data()["description"],
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 16.0
+                          ),)
                               : Text('Pas de description'),
                           trailing: RaisedButton(
                               color: Colors.lightGreen[600],
@@ -60,7 +73,7 @@ class _ListeParcoursState extends State<ListeParcours> {
                   }
                 });
           }else{
-            return(Text('Un problème est survenu'));
+            return(Text('Vous n\'avez pas encore de parcours !'));
           }
         }
     );

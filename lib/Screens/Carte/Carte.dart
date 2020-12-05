@@ -7,7 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
 
-import 'MenuDrawer.dart';
+import '../MenuDrawer.dart';
 import 'PinCarte.dart';
 
 class Carte extends StatefulWidget {
@@ -90,7 +90,9 @@ class _CarteState extends State<Carte> {
       stream: _dbService.getEvenementsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text('Chargement des évènements ...');
+          return Center(
+              child: CircularProgressIndicator()
+          );
         }
         else if(snapshot.data==null){
           return Text('Pas d\'évènements disponible');
