@@ -28,7 +28,7 @@ class _UtilisateurState extends State<Utilisateur> {
         children: [
           (widget.data["phoneNumber"] != null&&widget.data["phoneNumber"] != "") ?
           GestureDetector(
-              onTap: () {_launchURL("tel://"+widget.data["phoneNumber"]);},
+              onTap: () {_launchURL("tel://+33"+widget.data["phoneNumber"].toString().substring(1));},
               child: _buildButtonColumn(color, Icons.call, 'Appeler'),
             )
 

@@ -132,4 +132,12 @@ class Database {
 
   }
 
+  Future updatePlaces(String id, String placesRestantes) {
+    return evenementsGrosseCollection
+        .doc(id)
+        .update({
+            'places_restantes': placesRestantes,
+        });
+  }
+
 }

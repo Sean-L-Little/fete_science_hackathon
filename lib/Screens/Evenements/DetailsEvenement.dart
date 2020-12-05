@@ -16,6 +16,7 @@ class DetailsEvenement extends StatefulWidget {
   final Map<String, dynamic> data;
   final String id;
 
+
   @override
   _DetailsEvenementState createState() => _DetailsEvenementState();
 }
@@ -24,6 +25,11 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
   final Auth _auth = Auth();
   final Database _dbService = Database();
 
+  bool organisateur=false;
+  final _formKey = GlobalKey<FormState>();
+  String placesRestantesOrga='';
+  String placesRestantes='';
+  
   bool voted=false;
 
   double nb_etoiles=0;
@@ -33,12 +39,15 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
 
   String parcours='';
 
+
   String _platformVersion = 'Unknown';
 
   @override
   void initState() {
     super.initState();
     getParcours();
+    getOrga();
+    getRemplissage();
     initPlatformState();
   }
 
@@ -65,12 +74,35 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
     return telephone;
   }
 
+  getRemplissage() async {
+    try {
+      await _dbService.evenementsGrosseCollection.doc(widget.id).get().then((
+          value) =>
+
+      value.get("places_restantes") != null ?
+      placesRestantes = value.get("places_restantes") as String
+          : placesRestantes = "");
+
+      setState(() {});
+    }catch(e){
+      placesRestantes= 'Non Renseigné';
+    }
+  }
+
+
+  getOrga() async {
+    await _dbService.usersCollection.doc(widget.user.uid).get().then((value) =>
+    organisateur = value.get("organisateur") as bool);
+    setState(() {});
+  }
+
   getParcours() async{
     var snaps =_dbService.parcoursCollection.where("user_id",isEqualTo: widget.user.uid).snapshots();
     snaps.forEach((element) {
       print(element.toString());
     });
   }
+
 
   Future<void> initPlatformState() async {
     String platformVersion;
@@ -259,9 +291,74 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
         ],
       ),
     );
+    
+    Widget voirRemplissage() {
+      Color textCol = Colors.black;
+      if(placesRestantes != null && placesRestantes != '' && placesRestantes != "Non Renseigné") {
+        int places = int.parse(placesRestantes);
+        if(places < 20) textCol = Colors.red;
+      }
+      return Text(
+          "Places Restantes: " + placesRestantes,
+        style: TextStyle(
+          color: textCol,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+    }
+
+    Widget modifierRemplissage =
+    Form(
+      key: _formKey,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: TextFormField(
+              initialValue: placesRestantes,
+              validator: (val) => val.isEmpty ? "Places Restantes" : null,
+              onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+              onChanged: (val) {
+                setState(() {
+                  print("val" + val);
+                  placesRestantesOrga = val;
+                });
+              },
+              decoration: InputDecoration(
+                  icon: Icon(Icons.people),
+                  hintText: 'Places Restantes'
+
+              ),
+              maxLines: 1,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.number,
+
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(20.0),
+            child: RaisedButton(
+              child: Text('Confirmer',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),),
+              color: Colors.lightGreen[400],
+              onPressed: () async {
+                print(placesRestantesOrga);
+                if(placesRestantesOrga!='') {
+                  print("Widget ID: " +widget.id);
+                  _dbService.updatePlaces(widget.id,placesRestantesOrga);
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
 
     Widget ajoutParcours =
-    StreamBuilder(
+    StreamBuilder<QuerySnapshot>(
       stream: _dbService.parcoursCollection.where("user_id",isEqualTo: widget.user.uid).snapshots(),
       builder: (context, snapshot) {
         return Row(
@@ -292,6 +389,8 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
                 );
               }).toList(),
             )
+
+
           ],
 
         );
@@ -323,7 +422,9 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
             buttonSection,
             SizedBox(height:15.0),
             starSection,
+            organisateur ? modifierRemplissage : voirRemplissage(),
             titleSection,
+
             //ajoutParcours,
             //TODO Bien implementer l'ajout des parcours
 

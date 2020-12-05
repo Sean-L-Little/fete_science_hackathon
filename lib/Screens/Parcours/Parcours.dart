@@ -64,13 +64,10 @@ class _ParcoursState extends State<Parcours> {
             children: <Widget>[
               listEvents()
             ],
-          )
-          ,
+          ),
         )
-
     );
   }
-
 
   Widget listEvents(){
     return StreamBuilder<QuerySnapshot>(
