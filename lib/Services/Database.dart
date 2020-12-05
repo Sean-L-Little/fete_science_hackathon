@@ -148,4 +148,12 @@ class Database {
         });
   }
 
+  Future changeParcoursPrive(String id, bool prive) {
+    return parcoursCollection
+        .doc(id)
+        .update({
+      'prive': prive,
+    });
+  }
+
 }

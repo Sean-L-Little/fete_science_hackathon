@@ -15,7 +15,6 @@ class Parcours extends StatefulWidget {
 
 
 
-
   @override
   _ParcoursState createState() => _ParcoursState();
 }
@@ -27,17 +26,26 @@ class _ParcoursState extends State<Parcours> {
   Database _dbService= Database();
   List<dynamic> _eventIds=[];
   Stream dataStream;
+  String prive='prive';
   // _events = [];
 
+  bool parseBool(String boolean){
+    return boolean.toLowerCase()=='prive';
+  }
 
-
+  getPrive(){
+    widget.data['prive'] ? prive='prive' : prive= 'public';
+  }
 
   getData() async {
 
     _eventIds=widget.data["parcours"];
-    dataStream = _dbService.evenementsGrosseCollection
-        .where('fields.identifiant', whereIn: _eventIds != [] ? _eventIds: ["0"])
-        .snapshots();
+    if(_eventIds.isNotEmpty) {
+      dataStream = _dbService.evenementsGrosseCollection
+          .where(
+          'fields.identifiant', whereIn: _eventIds != [] ? _eventIds : ["0"])
+          .snapshots();
+    }
 
   }
 
@@ -63,7 +71,37 @@ class _ParcoursState extends State<Parcours> {
           child: Column(
             children: <Widget>[
               listEvents(),
-              suppressionParcours(context)
+              widget.data["user_id"]==widget.user.uid ?
+              DropdownButton<String>(
+                value: prive,
+
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(
+                    color: Colors.deepPurple
+                ),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String newValue) {
+                  setState(() {
+                    prive = newValue;
+                  });
+                  bool prv=parseBool(prive);
+                  _dbService.changeParcoursPrive(widget.id,prv);
+                },
+                items: <String>['prive','public']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                })
+                    .toList(),
+              ) : SizedBox(height:0.0,width:0.0),
+              widget.data["user_id"]==widget.user.uid ? suppressionParcours(context) : SizedBox(height:0.0,width:0.0),
             ],
           ),
         )
@@ -76,10 +114,12 @@ class _ParcoursState extends State<Parcours> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             //print("Data Length: " + snapshot.data.docs.length.toString());
-            return Text('Chargement des dqssq ...');
+            return Center(child: CircularProgressIndicator());
           }
           else if(snapshot.data==null){
-            return Text('Pas d\'évènements disponible');
+            return Container(
+              padding: EdgeInsets.all(20.0),
+                child: Text('Il n\'y a pas encore d\'événements sur ce parcours !',style: TextStyle(fontSize: 30.0), textAlign: TextAlign.center,));
           }else if(snapshot.data.docs.length>0){
             return ListView.builder(
                 scrollDirection: Axis.vertical,
@@ -119,7 +159,6 @@ class _ParcoursState extends State<Parcours> {
     );
 
   }
-
 
   Widget suppressionParcours(context) {
     return Container(

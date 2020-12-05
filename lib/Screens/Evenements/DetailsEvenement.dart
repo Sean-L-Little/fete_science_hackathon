@@ -363,7 +363,7 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
       builder: (context, snapshot) {
         return Row(
           children: <Widget>[
-            DropdownButton(
+            DropdownButton<dynamic>(
               value: parcours,
               icon: Icon(Icons.arrow_downward),
               iconSize: 24,
@@ -375,7 +375,7 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
                 height: 2,
                 color: Colors.deepPurpleAccent,
               ),
-              onChanged: (String newValue) {
+              onChanged: (dynamic newValue) {
                 setState(() {
                   parcours = newValue;
                 });
@@ -383,7 +383,7 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
               items: snapshot.data.docs
                   .map((DocumentSnapshot document) {
                     print('fuck');
-                return new DropdownMenuItem<String>(
+                return new DropdownMenuItem<dynamic>(
                   value: document.id.toString(),
                   child: Text(document["nom"].toString()),
                 );
@@ -424,7 +424,6 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
             starSection,
             organisateur ? modifierRemplissage : voirRemplissage(),
             titleSection,
-
             //ajoutParcours,
             //TODO Bien implementer l'ajout des parcours
 
