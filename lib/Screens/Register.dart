@@ -53,7 +53,7 @@ class _RegisterState extends State<Register> {
                     keyboardType: TextInputType.emailAddress,
 
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height:20),
                   TextFormField(
                       validator: (val) => val.length < 6 ? "Mot de passe doit contenir au moins 6 charactères" : null,
                       onFieldSubmitted: (_) {

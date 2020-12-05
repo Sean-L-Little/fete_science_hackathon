@@ -57,7 +57,7 @@ class _LoginState extends State<Login> {
                     keyboardType: TextInputType.emailAddress,
 
                   ),
-                  SizedBox(height:10),
+                  SizedBox(height:20),
                   TextFormField(
                       validator: (val) => val.isEmpty ? "Entrez votre Mot De Passe" : null,
                       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
                       },
                       decoration: InputDecoration(
                         icon: Icon(Icons.lock),
-                        hintText: 'Enter Password'
+                        hintText: 'Entrez votre Mot De Passe'
 
                       ),
                       maxLines: 1,

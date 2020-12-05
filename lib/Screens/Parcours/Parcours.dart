@@ -62,7 +62,8 @@ class _ParcoursState extends State<Parcours> {
         body: Center(
           child: Column(
             children: <Widget>[
-              listEvents()
+              listEvents(),
+              suppressionParcours(context)
             ],
           ),
         )
@@ -117,6 +118,22 @@ class _ParcoursState extends State<Parcours> {
         }
     );
 
+  }
+
+
+  Widget suppressionParcours(context) {
+    return Container(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+          ),
+          onPressed: () {
+            _dbService.deleteParcours(widget.id);
+            Navigator.pop(context);
+          },
+          child: Text('Supprimer le parcours'),
+        )
+    );
   }
 
 //   Widget carousel(){

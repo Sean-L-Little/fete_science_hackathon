@@ -132,6 +132,14 @@ class Database {
 
   }
 
+  Future deleteParcours(String id) {
+    return parcoursCollection
+        .doc(id)
+        .delete()
+        .then((value) => print('Parcours deleted'))
+        .catchError((error) => print('Failed to delete parcours: $error'));
+  }
+
   Future updatePlaces(String id, String placesRestantes) {
     return evenementsGrosseCollection
         .doc(id)
