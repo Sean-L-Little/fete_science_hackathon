@@ -153,7 +153,7 @@ class _ParcoursState extends State<Parcours> {
                                 'Voir Plus',
                                 style: TextStyle(color: Colors.white),), onPressed:() {
                             Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => DetailsEvenement(id: snapshot.data.docs[i].id, data: snapshot.data.docs[i].data())),
+                              MaterialPageRoute(builder: (context) => DetailsEvenement(id: snapshot.data.docs[i].id, data: snapshot.data.docs[i].data(), user:widget.user)),
                             );
                           }),
                         )
