@@ -67,7 +67,7 @@ class _ListeParcoursState extends State<ListeParcours> {
                         )
                     );
                   }else {
-                    return null;
+                    return SizedBox(height:0.0);
                   }
                 });
           }else{
