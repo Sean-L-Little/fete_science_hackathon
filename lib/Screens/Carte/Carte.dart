@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fete_science_app/Services/Auth.dart';
 import 'package:fete_science_app/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +5,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong/latlong.dart';
 
-import '../MenuDrawer.dart';
 import 'PinCarte.dart';
 
 class Carte extends StatefulWidget {
@@ -25,45 +22,6 @@ class _CarteState extends State<Carte> {
   final Database _dbService = Database();
 
   List<Marker> markers = new List<Marker>();
-
-  // void initMarker() async{
-  //   _dbService.getEvenementsStream();
-  //   FirebaseFirestore.instance
-  //       .collection('/Evenements')
-  //       .get()
-  //       .then((QuerySnapshot querySnapshot) => {
-  //     querySnapshot.docs.forEach((doc) {
-  //       try{
-  //         if(doc["fields"]!=null && doc["geometry"]!=null){
-  //           String newLocation = doc["fields.ville"] != null ? doc["fields.ville"] : " ";
-  //           String newName = doc["fields.titre_fr"] != null ? doc["fields.titre_fr"] : " ";
-  //           String newDesc = doc["fields.description_fr"] != null ? doc["fields.description_fr"] : " ";
-  //           double newLat = doc["geometry.coordinates"][1] != null ? doc["geometry.coordinates"][1] : 50;
-  //           double newLong = doc["geometry.coordinates"][0] != null ? doc["geometry.coordinates"][0] : 50;
-  //           print("Lat: "+newLat.toString());
-  //           print("Long: "+newLong.toString());
-  //           setState(() {
-  //             markers.add(new PinMarker(
-  //               pin: Pin(location: newLocation,
-  //                   name: newName,
-  //                   desc: newDesc,
-  //                   lat: newLat,
-  //                   long: newLong),
-  //             ));
-  //           });// PAS SUR
-  //
-  //           print(markers.length.toString());
-  //         }
-  //       }catch(error){
-  //         print("error");
-  //       }
-  //     })
-  //
-  //   });
-  //
-  //   print("DOne");
-  // }
-
 
   @override
   void initState(){

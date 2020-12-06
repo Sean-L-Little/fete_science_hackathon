@@ -3,33 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../Services/Database.dart';
 import 'DetailsEvenement.dart';
-import '../MenuDrawer.dart';
-
-// class Accueil extends StatefulWidget {
-//   Accueil({Key key, this.title, this.user}) : super(key: key);
-//   final User user;
-//   final String title;
-//   @override
-//   _AccueilState createState() => _AccueilState();
-// }
-//
-// class _AccueilState extends State<Accueil> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.lightGreen[100],
-//         drawer: MenuDrawer(user: widget.user),
-//       appBar: AppBar(
-//         backgroundColor: Colors.lightGreen[400],
-//         title: Text('Liste des évènements'),
-//         centerTitle: true,
-//       ),
-//       body: Center(
-//         child: ListeEvenement(),
-//       )
-//     );
-//   }
-// }
 
 
 class ListeEvenement extends StatefulWidget {

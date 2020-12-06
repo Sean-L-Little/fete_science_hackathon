@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fete_science_app/Screens/Carte/PinCarte.dart';
-import 'package:flutter_map/flutter_map.dart';
 
 class Database {
   final CollectionReference usersCollection =
@@ -30,19 +28,7 @@ class Database {
     });
   }
 
-  // QuerySnapshot getEventFromID(id){
-  //   evenementsGrosseCollection.doc(id).get().then((value) {
-  //     return value;
-  //   });
-  // }
-
   Future changeRating(uid, nbEtoiles,nbVotes) async {
-    // double nb_etoiles = 0;
-    // double nb_votes = 0;
-    // await usersCollection.doc(uid).get().then((docu) {
-    //   docu.get("nb_etoiles") != null ? nb_etoiles=docu.get("nb_etoiles") : nb_etoiles=0;
-    //   docu.get("nb_votes") != null ? nb_votes=docu.get("nb_votes") : nb_votes=0;
-    // });
     print("UID pour les votes : " +uid);
     return evenementsGrosseCollection
         .doc(uid)

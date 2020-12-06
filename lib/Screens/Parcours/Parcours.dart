@@ -55,7 +55,6 @@ class _ParcoursState extends State<Parcours> {
 
   @override
   Widget build(BuildContext context) {
-    print("toot"+ _eventIds.length.toString());
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,

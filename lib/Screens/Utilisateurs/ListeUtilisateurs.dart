@@ -1,27 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fete_science_app/Screens/MenuDrawer.dart';
 import 'package:fete_science_app/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fete_science_app/Services/Auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'Utilisateur.dart';
-
-// class ListeUtilisateurs extends StatefulWidget {
-//   ListeUtilisateurs({Key key, this.title, this.user}) : super(key: key);
-//   final User user;
-//   final String title;
-//
-//   @override
-//   _ListeUtilisateursState createState() => _ListeUtilisateursState();
-// }
-//
-// class _ListeUtilisateursState extends State<ListeUtilisateurs> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BuildUser();
-//   }
-// }
 
 
 class BuildUser extends StatefulWidget {

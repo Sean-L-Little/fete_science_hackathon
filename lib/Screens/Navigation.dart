@@ -6,7 +6,6 @@ import 'Parcours/ListeParcours.dart';
 import 'Utilisateurs/ListeUtilisateurs.dart';
 import 'Carte/Carte.dart';
 import 'MenuDrawer.dart';
-import 'Parcours/Parcours.dart';
 
 class Navigation extends StatefulWidget {
   Navigation({Key key, this.title, this.user}) : super(key: key);

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fete_science_app/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fete_science_app/Services/Auth.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,7 +21,6 @@ class DetailsEvenement extends StatefulWidget {
 }
 
 class _DetailsEvenementState extends State<DetailsEvenement> {
-  final Auth _auth = Auth();
   final Database _dbService = Database();
 
   bool organisateur=false;
