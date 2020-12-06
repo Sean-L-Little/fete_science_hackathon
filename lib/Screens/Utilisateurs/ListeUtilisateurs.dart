@@ -53,7 +53,7 @@ class _BuildUserState extends State<BuildUser> {
               itemCount: snapshot.data.docs.length,
               itemBuilder: (context,i){
                 return Card(
-                  color: Colors.lightGreen[200],
+                  color: Theme.of(context).accentColor,
                   child: ListTile(
                     leading: CircleAvatar(
                       radius: 30,
@@ -71,7 +71,7 @@ class _BuildUserState extends State<BuildUser> {
                             style: TextStyle(fontSize: 25 ))
                         : Text('Pas de Numéro !', style: TextStyle(fontSize: 25 )),
                     trailing: RaisedButton(
-                        color: Colors.lightGreen[600],
+                        color: Theme.of(context).primaryColor,
                         child:Text('Voir Plus',
                           style: TextStyle(color: Colors.white),),
                         onPressed:() {
