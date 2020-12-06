@@ -62,34 +62,25 @@ class _BuildUserState extends State<BuildUser> {
                     ),
                     title:
                       (snapshot.data.docs[i].data()["displayName"] != null && snapshot.data.docs[i].data()["displayName"] != "") ?
-                        Text(
-                            snapshot.data.docs[i].data()["displayName"],
+                        Text(snapshot.data.docs[i].data()["displayName"],
                             style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),)
                         : Text('Pas de Pseudo !',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                     subtitle:
-                        Column(
-                          children:<Widget>[
-
-                            (snapshot.data.docs[i].data()["phoneNumber"] != null && snapshot.data.docs[i].data()["phoneNumber"] != "")?
-                                Text(
-                                    snapshot.data.docs[i].data()["phoneNumber"],
-                                    style: TextStyle(fontSize: 25 ))
-                                : Text('Pas de Numéro !', style: TextStyle(fontSize: 25 )),
-                            RaisedButton(
-                              color: Colors.lightGreen[600],
-                                child:Text(
-                                    'Voir Plus',
-                                    style: TextStyle(color: Colors.white),), onPressed:() {
-                                    Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) => Utilisateur(data: snapshot.data.docs[i].data())),
-                                  );
-                            }),
-                    ],
+                      (snapshot.data.docs[i].data()["phoneNumber"] != null && snapshot.data.docs[i].data()["phoneNumber"] != "")?
+                        Text(snapshot.data.docs[i].data()["phoneNumber"],
+                            style: TextStyle(fontSize: 25 ))
+                        : Text('Pas de Numéro !', style: TextStyle(fontSize: 25 )),
+                    trailing: RaisedButton(
+                        color: Colors.lightGreen[600],
+                        child:Text('Voir Plus',
+                          style: TextStyle(color: Colors.white),),
+                        onPressed:() {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Utilisateur(data: snapshot.data.docs[i].data())));
+                        }
                     ),
                   ),
                 );
               },
-
             );
           }else{
             return Text('Une erreur s\'est produite');

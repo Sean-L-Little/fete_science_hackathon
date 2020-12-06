@@ -99,7 +99,7 @@ class _RegisterState extends State<Register> {
                           fontSize: 20.0,
                         ),
                       ),
-                      color: Colors.lightGreen[400],
+                      color: Colors.lightGreen[600],
                       onPressed: () async {
                         createAcc();
                         if(pwordGood) {

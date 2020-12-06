@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                           color: Colors.white,
                           fontSize: 20.0,
                         ),),
-                      color: Colors.lightGreen[400],
+                      color: Colors.lightGreen[600],
                       onPressed: () async {
 
                         connect();

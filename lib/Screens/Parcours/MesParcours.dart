@@ -38,7 +38,6 @@ class _MesParcoursState extends State<MesParcours> {
         onPressed:() {
           Navigator.push(context,
           MaterialPageRoute(builder: (context) => NouveauParcours(user: widget.user)));
-
         },
       ),
     );
@@ -93,7 +92,13 @@ class _MesParcoursState extends State<MesParcours> {
 
                 });
           }else{
-            return(Text('Vous n\'avez aucun parcours !'));
+            return(
+            Container(
+              margin: EdgeInsets.all(20),
+              child: Text('Vous n\'avez aucun parcours !',
+                style: TextStyle(fontSize: 16)),
+            )
+            );
           }
         }
     );
