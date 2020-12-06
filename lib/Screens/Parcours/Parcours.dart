@@ -60,10 +60,9 @@ class _ParcoursState extends State<Parcours> {
    //eventIds = _dbService.getEvenementsForParcours(widget.id).data().values != null ? _dbService.getEvenementsForParcours(widget.id).data().values: 5;
     print("toot"+ _eventIds.length.toString());
     return Scaffold(
-        backgroundColor: Colors.lightGreen[100],
         //drawer: MenuDrawer(user: widget.user),
         appBar: AppBar(
-          backgroundColor: Colors.lightGreen[400],
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text('Parcours: ' + widget.data["nom"]),
           centerTitle: true,
         ),
@@ -72,34 +71,41 @@ class _ParcoursState extends State<Parcours> {
             children: <Widget>[
               listEvents(),
               widget.data["user_id"]==widget.user.uid ?
-              DropdownButton<String>(
-                value: prive,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Visibilité du parcours: ', style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),),
+                  SizedBox(width:10.0),
+                  DropdownButton<String>(
+                    value: prive,
 
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(
-                    color: Colors.deepPurple
-                ),
-                underline: Container(
-                  height: 2,
-                  color: Colors.deepPurpleAccent,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    prive = newValue;
-                  });
-                  bool prv=parseBool(prive);
-                  _dbService.changeParcoursPrive(widget.id,prv);
-                },
-                items: <String>['prive','public']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                })
-                    .toList(),
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor
+                    ),
+                    underline: Container(
+                      height: 2,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        prive = newValue;
+                      });
+                      bool prv=parseBool(prive);
+                      _dbService.changeParcoursPrive(widget.id,prv);
+                    },
+                    items: <String>['prive','public']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),),
+                      );
+                    })
+                        .toList(),
+                  ),
+                ],
               ) : SizedBox(height:0.0,width:0.0),
               widget.data["user_id"]==widget.user.uid ? suppressionParcours(context) : SizedBox(height:0.0,width:0.0),
             ],
@@ -109,53 +115,55 @@ class _ParcoursState extends State<Parcours> {
   }
 
   Widget listEvents(){
-    return StreamBuilder<QuerySnapshot>(
-        stream: dataStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            //print("Data Length: " + snapshot.data.docs.length.toString());
-            return Center(child: CircularProgressIndicator());
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+          stream: dataStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              //print("Data Length: " + snapshot.data.docs.length.toString());
+              return Center(child: CircularProgressIndicator());
+            }
+            else if(snapshot.data==null){
+              return Container(
+                padding: EdgeInsets.all(20.0),
+                  child: Text('Il n\'y a pas encore d\'événements sur ce parcours !',style: TextStyle(fontSize: 30.0), textAlign: TextAlign.center,));
+            }else if(snapshot.data.docs.length>0){
+              return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, i) {
+                    return Card(
+                        color: Theme.of(context).accentColor,
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            radius: 30,
+                            backgroundImage:
+                            snapshot.data.docs[i].data()["fields"]["apercu"] != null ? NetworkImage(snapshot.data.docs[i].data()["fields"]["apercu"]) : NetworkImage("https://blog.hubspot.com/hubfs/Shrug-Emoji.jpg"),
+                          ),
+                          title: snapshot.data.docs[i].data()["fields"]["titre_fr"] != null ?
+                          Text(snapshot.data.docs[i].data()["fields"]["titre_fr"])
+                              :Text('Pas de titre'),
+                          subtitle: snapshot.data.docs[i].data()["fields"]["description_fr"] != null ?
+                          Text(snapshot.data.docs[i].data()["fields"]["description_fr"])
+                              :Text('Pas de description'),
+                          trailing: RaisedButton(
+                              color: Theme.of(context).primaryColor,
+                              child:Text(
+                                'Voir Plus',
+                                style: TextStyle(color: Colors.white),), onPressed:() {
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => DetailsEvenement(id: snapshot.data.docs[i].id, data: snapshot.data.docs[i].data())),
+                            );
+                          }),
+                        )
+                    );
+                  });
+            }else{
+              return(Text('Un problème est survenu'));
+            }
           }
-          else if(snapshot.data==null){
-            return Container(
-              padding: EdgeInsets.all(20.0),
-                child: Text('Il n\'y a pas encore d\'événements sur ce parcours !',style: TextStyle(fontSize: 30.0), textAlign: TextAlign.center,));
-          }else if(snapshot.data.docs.length>0){
-            return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, i) {
-                  return Card(
-                      color: Colors.lightGreen[100],
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 30,
-                          backgroundImage:
-                          snapshot.data.docs[i].data()["fields"]["apercu"] != null ? NetworkImage(snapshot.data.docs[i].data()["fields"]["apercu"]) : NetworkImage("https://blog.hubspot.com/hubfs/Shrug-Emoji.jpg"),
-                        ),
-                        title: snapshot.data.docs[i].data()["fields"]["titre_fr"] != null ?
-                        Text(snapshot.data.docs[i].data()["fields"]["titre_fr"])
-                            :Text('Pas de titre'),
-                        subtitle: snapshot.data.docs[i].data()["fields"]["description_fr"] != null ?
-                        Text(snapshot.data.docs[i].data()["fields"]["description_fr"])
-                            :Text('Pas de description'),
-                        trailing: RaisedButton(
-                            color: Colors.lightGreen[600],
-                            child:Text(
-                              'Voir Plus',
-                              style: TextStyle(color: Colors.white),), onPressed:() {
-                          Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => DetailsEvenement(id: snapshot.data.docs[i].id, data: snapshot.data.docs[i].data())),
-                          );
-                        }),
-                      )
-                  );
-                });
-          }else{
-            return(Text('Un problème est survenu'));
-          }
-        }
+      ),
     );
 
   }

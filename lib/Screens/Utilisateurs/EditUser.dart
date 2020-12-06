@@ -28,9 +28,8 @@ class _EditUserState extends State<EditUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[400],
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Changez Vos Informations'),
         centerTitle: true,
       ),
@@ -139,7 +138,7 @@ class _EditUserState extends State<EditUser> {
                           fontSize: 20.0,
                         ),
                       ),
-                      color: Colors.lightGreen[400],
+                      color: Theme.of(context).primaryColor,
                       onPressed: () async {
                         editAcc();
                         //Navigator.pop(context);

@@ -32,13 +32,11 @@ class _ListeParcoursState extends State<ListeParcours> {
             return Text('Pas d\'évènements disponible');
           }else if(snapshot.data.docs.length>0){
             return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, i) {
                   if(snapshot.data.docs[i].data()["prive"] != null && !snapshot.data.docs[i].data()["prive"]) {
                     return Card(
-                        color: Colors.lightGreen[100],
+                        color: Theme.of(context).accentColor,
                         child: ListTile(
                           title: snapshot.data.docs[i].data()["nom"] != null ?
                           Text(snapshot.data.docs[i].data()["nom"],
@@ -55,7 +53,7 @@ class _ListeParcoursState extends State<ListeParcours> {
                           ),)
                               : Text('Pas de description'),
                           trailing: RaisedButton(
-                              color: Colors.lightGreen[600],
+                              color: Theme.of(context).primaryColor,
                               child: Text(
                                 'Voir Plus',
                                 style: TextStyle(color: Colors.white),),

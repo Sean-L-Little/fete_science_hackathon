@@ -24,9 +24,8 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[400],
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Fête de la Science 2019'),
         centerTitle: true,
       ),
@@ -85,7 +84,7 @@ class _LoginState extends State<Login> {
                           color: Colors.white,
                           fontSize: 20.0,
                         ),),
-                      color: Colors.lightGreen[600],
+                      color: Theme.of(context).primaryColor,
                       onPressed: () async {
 
                         connect();

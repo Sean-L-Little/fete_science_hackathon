@@ -45,7 +45,7 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
   @override
   void initState() {
     super.initState();
-    getParcours();
+   // getParcours();
     getOrga();
     getRemplissage();
     initPlatformState();
@@ -309,7 +309,9 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
     }
 
     Widget modifierRemplissage =
-    Form(
+    Container(
+      padding: EdgeInsets.only(left:20.0),
+    child: Form(
       key: _formKey,
       child: Row(
         children: <Widget>[
@@ -343,7 +345,7 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
                   color: Colors.white,
                   fontSize: 20.0,
                 ),),
-              color: Colors.lightGreen[400],
+              color: Theme.of(context).primaryColor,
               onPressed: () async {
                 print(placesRestantesOrga);
                 if(placesRestantesOrga!='') {
@@ -355,54 +357,103 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
           ),
         ],
       ),
+    )
     );
 
-    Widget ajoutParcours =
-    StreamBuilder<QuerySnapshot>(
-      stream: _dbService.parcoursCollection.where("user_id",isEqualTo: widget.user.uid).snapshots(),
-      builder: (context, snapshot) {
-        return Row(
-          children: <Widget>[
-            DropdownButton<dynamic>(
-              value: parcours,
-              icon: Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(
-                  color: Colors.deepPurple
-              ),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (dynamic newValue) {
-                setState(() {
-                  parcours = newValue;
-                });
-              },
-              items: snapshot.data.docs
-                  .map((DocumentSnapshot document) {
-                    print('fuck');
-                return new DropdownMenuItem<dynamic>(
-                  value: document.id.toString(),
-                  child: Text(document["nom"].toString()),
+    Widget ajoutParcours(){
+
+      return new StreamBuilder<QuerySnapshot>(
+          stream: _dbService.parcoursCollection.where("user_id",isEqualTo: widget.user.uid).snapshots(),
+          builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return CircularProgressIndicator();
+            }if(snapshot.data.docs.length==0){
+              return Text('No');
+            }
+
+            else{
+              List<DropdownMenuItem> parcoursItems=[];
+              for(int i=0;i<snapshot.data.docs.length;i++){
+                DocumentSnapshot snap = snapshot.data.docs[i];
+                parcoursItems.add(
+                  DropdownMenuItem(
+                    child: Text(
+                      snap.get("nom"),
+                    ),
+                    value:"${snap.id}",
+                  )
                 );
-              }).toList(),
-            )
+              }
 
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget> [
+                  Icon(FontAwesomeIcons.route),
+                  SizedBox(width: 20.0,),
+                  DropdownButton(
+                    hint: Text('Ajouter à un parcours'),
+                      items: parcoursItems,
+                      onChanged: (parcoursValue){
+                        setState(() {
+                          parcours = parcoursValue;
+                        });
+                        _dbService.addEventToParcours(widget.data["fields"]['identifiant'], parcoursValue);
+                      }
+                  )
+                ]
+              );
+            }
+          }
+      );
+    }
 
-          ],
-
-        );
-      }
-    );
+    // Widget ajoutParcours =
+    // StreamBuilder<QuerySnapshot>(
+    //   stream: _dbService.parcoursCollection.where("user_id",isEqualTo: widget.user.uid).snapshots(),
+    //   builder: (context, snapshot) {
+    //     return Row(
+    //       children: <Widget>[
+    //         DropdownButton <String>(
+    //           value: parcours,
+    //           icon: Icon(Icons.arrow_downward),
+    //           iconSize: 24,
+    //           elevation: 16,
+    //           style: TextStyle(
+    //               color: Colors.deepPurple
+    //           ),
+    //           underline: Container(
+    //             height: 2,
+    //             color: Colors.deepPurpleAccent,
+    //           ),
+    //           onChanged: (String newValue) {
+    //             setState(() {
+    //               parcours = newValue;
+    //             });
+    //           },
+    //           items: snapshot.data.docs
+    //               .map((DocumentSnapshot document) {
+    //                 print(": "+document.id);
+    //                 if(!parcoursList.contains(document.id)) {
+    //                   parcoursList.add(document.id);
+    //                   print("Code in here !!!!");
+    //                   return new DropdownMenuItem<String>(
+    //                     value: document.id,
+    //                     child: Text(document.get("nom").toString()),
+    //                   );
+    //                 }
+    //           }).toList(),
+    //         )
+    //       ],
+    //
+    //     );
+    //   }
+    // );
 
 
 
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[400],
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Evenement : '+ (widget.data["fields"]["identifiant"] != null ? widget.data["fields"]["identifiant"]: 'Pas d\'identifiant')),
         centerTitle: true,
       ),
@@ -423,8 +474,9 @@ class _DetailsEvenementState extends State<DetailsEvenement> {
             SizedBox(height:15.0),
             starSection,
             organisateur ? modifierRemplissage : voirRemplissage(),
+            ajoutParcours(),
             titleSection,
-            //ajoutParcours,
+
             //TODO Bien implementer l'ajout des parcours
 
           ],

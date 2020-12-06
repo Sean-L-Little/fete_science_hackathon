@@ -129,7 +129,6 @@ class Database {
       'prive': true,
       'parcours':[],
     });
-
   }
 
   Future deleteParcours(String id) {
@@ -138,6 +137,17 @@ class Database {
         .delete()
         .then((value) => print('Parcours deleted'))
         .catchError((error) => print('Failed to delete parcours: $error'));
+  }
+  
+  Future addEventToParcours(String eventId, String parcoursId){
+    List<dynamic> list = new List<dynamic>();
+    list.add(eventId);
+    return parcoursCollection
+        .doc(parcoursId)
+        .update({
+        'parcours' : FieldValue.arrayUnion(list),
+    });
+    
   }
 
   Future updatePlaces(String id, String placesRestantes) {

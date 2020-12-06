@@ -20,9 +20,8 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[400],
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Créez un compte'),
         centerTitle: true,
       ),
@@ -99,7 +98,7 @@ class _RegisterState extends State<Register> {
                           fontSize: 20.0,
                         ),
                       ),
-                      color: Colors.lightGreen[600],
+                      color: Theme.of(context).primaryColor,
                       onPressed: () async {
                         createAcc();
                         if(pwordGood) {

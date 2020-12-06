@@ -42,19 +42,18 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     initPages();
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[600],
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(pageTitles[_currentIndex]),
         centerTitle: true,
       ),
-      drawer: MenuDrawer(user: widget.user), //TODO: Rajouter widget.user en mode bien
+      drawer: MenuDrawer(user: widget.user),
       body: pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
         iconSize: 30,
-        selectedItemColor: Colors.lightGreen[800],
+        selectedItemColor: Theme.of(context).primaryColor,
         selectedFontSize: 17.0,
         unselectedFontSize: 15.0,
         items: [

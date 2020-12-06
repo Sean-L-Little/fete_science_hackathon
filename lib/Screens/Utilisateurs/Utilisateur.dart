@@ -104,9 +104,8 @@ class _UtilisateurState extends State<Utilisateur> {
 
 
     return Scaffold(
-      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[400],
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Utilisateur : '+ (widget.data["displayName"] != null && widget.data["displayName"] != "" ? widget.data["displayName"]: 'Pas de Pseudo')),
         centerTitle: true,
       ),

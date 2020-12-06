@@ -22,12 +22,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
       child: ListView(
           children: <Widget>[
             UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.lightGreen),
               currentAccountPicture: widget.user.photoURL != null ? Image.network(widget.user.photoURL) : Image.network('https://www.labaleine.fr/sites/default/files/image-not-found.jpg'),
               accountName: widget.user.displayName != null ? Text(widget.user.displayName,
-                  style: TextStyle(fontSize: 25.0)) : Text('Loading'),
+                  style: TextStyle(fontSize: 25.0)) : Text('Pas de Pseudo'),
               accountEmail: widget.user.email != null ? Text(widget.user.email,
-                  style: TextStyle(fontSize: 20.0)) : Text('Loading'),
+                  style: TextStyle(fontSize: 20.0)) : Text('Chargement'),
             ),
             RaisedButton(
               child: Text('Modifier Profil'),
@@ -45,9 +44,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 );
               },
             ),
-            ElevatedButton(
-              child: Text('Déconnexion'),
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+            RaisedButton(
+              child: Text('Deconnexion'),
+              color: Colors.red[300],
               onPressed: () async {
                 dynamic res = await _auth.signOut();
                 if (res == null) print("ffs");

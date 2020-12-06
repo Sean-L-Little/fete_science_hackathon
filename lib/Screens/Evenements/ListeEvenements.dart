@@ -101,8 +101,17 @@ class _ListeEvenementState extends State<ListeEvenement> {
                               snapshot.data.docs[i]['fields']['resume_dates_fr'].toString().toLowerCase()
                                   .contains(searchControl.text.trim().toLowerCase()))) {
                         return Card(
-                            color: Colors.lightGreen[100],
+
+                            color: Theme.of(context).accentColor,
                             child: ListTile(
+                              onTap: (){
+                                Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) =>
+                                      DetailsEvenement(user: widget.user,
+                                          id: snapshot.data.docs[i].id,
+                                          data: snapshot.data.docs[i].data())),
+                                );
+                              },
                               leading: CircleAvatar(
                                 radius: 30,
                                 backgroundImage:
@@ -113,9 +122,23 @@ class _ListeEvenementState extends State<ListeEvenement> {
                               ),
                               title: snapshot.data.docs[i]
                                   .data()["fields"]["titre_fr"] != null ?
-                              Text(
-                                snapshot.data.docs[i].data()["fields"]["titre_fr"],
-                                style: TextStyle(fontSize: 18.0),
+                              Column(
+                                children: [
+                                  Text(
+                                    snapshot.data.docs[i].data()["fields"]["titre_fr"],
+                                    style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                                    ),
+                                  SizedBox(height:10.0),
+                                  Text(
+                                    snapshot.data.docs[i].data()['fields']['resume_horaires_fr'] != null ?
+                                    snapshot.data.docs[i].data()['fields']['resume_horaires_fr']
+                                        : '',
+                                    style: TextStyle(fontSize: 16.0,fontStyle: FontStyle.italic),
+
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  SizedBox(height:10.0),
+                                ],
                               )
                                   : Text('Pas de titre'),
                               subtitle: snapshot.data.docs[i]
@@ -127,19 +150,19 @@ class _ListeEvenementState extends State<ListeEvenement> {
                                 textAlign: TextAlign.justify,
                               )
                                   : Text('Pas de description'),
-                              trailing: RaisedButton(
-                                  color: Colors.lightGreen[600],
-                                  child: Text(
-                                    'Voir Plus',
-                                    style: TextStyle(color: Colors.white),),
-                                  onPressed: () {
-                                    Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) =>
-                                          DetailsEvenement(user: widget.user,
-                                              id: snapshot.data.docs[i].id,
-                                              data: snapshot.data.docs[i].data())),
-                                    );
-                                  }),
+                              // trailing: RaisedButton(
+                              //     color: Colors.lightGreen[600],
+                              //     child: Text(
+                              //       'Voir Plus',
+                              //       style: TextStyle(color: Colors.white),),
+                              //     onPressed: () {
+                              //       Navigator.push(context,
+                              //         MaterialPageRoute(builder: (context) =>
+                              //             DetailsEvenement(user: widget.user,
+                              //                 id: snapshot.data.docs[i].id,
+                              //                 data: snapshot.data.docs[i].data())),
+                              //       );
+                              //     }),
                             )
                         );
                       }else{

@@ -19,6 +19,11 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
     value: Auth().user,
     child: MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.green[800],
+        accentColor: Colors.lightGreen[100],
+      ),
     title: 'Fête de la Science',
     home: Wrapper(),
     ),
