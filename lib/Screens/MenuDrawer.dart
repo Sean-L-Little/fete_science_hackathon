@@ -44,9 +44,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 );
               },
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text('Deconnexion'),
-              color: Colors.red[300],
+              style: ElevatedButton.styleFrom(
+                primary: Colors.red,
+              ),
               onPressed: () async {
                 dynamic res = await _auth.signOut();
                 if (res == null) print("ffs");

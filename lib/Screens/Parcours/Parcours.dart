@@ -1,10 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fete_science_app/Services/Database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Evenements/DetailsEvenement.dart';
-import '../MenuDrawer.dart';
 
 class Parcours extends StatefulWidget {
   Parcours({Key key, this.id, this.data, this.title, this.user}) : super(key: key);
@@ -27,6 +25,7 @@ class _ParcoursState extends State<Parcours> {
   List<dynamic> _eventIds=[];
   Stream dataStream;
   String prive='prive';
+  bool isPrive;
   // _events = [];
 
   bool parseBool(String boolean){
@@ -38,7 +37,6 @@ class _ParcoursState extends State<Parcours> {
   }
 
   getData() async {
-
     _eventIds=widget.data["parcours"];
     if(_eventIds.isNotEmpty) {
       dataStream = _dbService.evenementsGrosseCollection
@@ -46,21 +44,19 @@ class _ParcoursState extends State<Parcours> {
           'fields.identifiant', whereIn: _eventIds != [] ? _eventIds : ["0"])
           .snapshots();
     }
-
   }
 
 
   initState() {
+    isPrive = !widget.data['prive'];
     getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-   //eventIds = _dbService.getEvenementsForParcours(widget.id).data().values != null ? _dbService.getEvenementsForParcours(widget.id).data().values: 5;
     print("toot"+ _eventIds.length.toString());
     return Scaffold(
-        //drawer: MenuDrawer(user: widget.user),
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
           title: Text('Parcours: ' + widget.data["nom"]),
@@ -71,41 +67,32 @@ class _ParcoursState extends State<Parcours> {
             children: <Widget>[
               listEvents(),
               widget.data["user_id"]==widget.user.uid ?
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Visibilité du parcours: ', style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),),
-                  SizedBox(width:10.0),
-                  DropdownButton<String>(
-                    value: prive,
-
-                    icon: Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(
-                        color: Theme.of(context).primaryColor
-                    ),
-                    underline: Container(
-                      height: 2,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        prive = newValue;
-                      });
-                      bool prv=parseBool(prive);
-                      _dbService.changeParcoursPrive(widget.id,prv);
-                    },
-                    items: <String>['prive','public']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold),),
-                      );
-                    })
-                        .toList(),
-                  ),
-                ],
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text('Visiblité du parcours',
+                    style: TextStyle(fontSize: 20.0,fontWeight: FontWeight.bold)),
+                    Row(
+                      children: <Widget>[
+                        Switch(
+                          value: isPrive,
+                          onChanged: (value){
+                            setState(() {
+                              isPrive = value;
+                              _dbService.changeParcoursPrive(widget.id, !isPrive);
+                              print(isPrive);
+                            });
+                          },
+                          activeTrackColor: Colors.lightGreen,
+                          activeColor: Colors.green
+                        ),
+                        Text('Privé / Public')
+                      ],
+                    )
+                  ],
+                ),
               ) : SizedBox(height:0.0,width:0.0),
               widget.data["user_id"]==widget.user.uid ? suppressionParcours(context) : SizedBox(height:0.0,width:0.0),
             ],
@@ -170,6 +157,7 @@ class _ParcoursState extends State<Parcours> {
 
   Widget suppressionParcours(context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 10),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.red,
@@ -182,102 +170,4 @@ class _ParcoursState extends State<Parcours> {
         )
     );
   }
-
-//   Widget carousel(){
-//     int _currentIndex=0;
-//
-//     List<T> map<T>(List list, Function handler) {
-//       List<T> result = [];
-//       for (var i = 0; i < list.length; i++) {
-//         result.add(handler(i, list[i]));
-//       }
-//       return result;
-//     }
-//
-//     //TODO: Revoir comment implementer ça
-//     return CarouselSlider(
-//         options: CarouselOptions(
-//           height: 200.0,
-//           autoPlay: false,
-//           autoPlayInterval: Duration(seconds: 3),
-//           autoPlayAnimationDuration: Duration(milliseconds: 800),
-//           autoPlayCurve: Curves.fastOutSlowIn,
-//           pauseAutoPlayOnTouch: true,
-//           aspectRatio: 2.0,
-//           onPageChanged: (index, reason) {
-//             setState(() {
-//               _currentIndex = index;
-//             });
-//           },
-//         ),
-//       items: cardList.map((card){
-//         return StreamBuilder(
-//             stream: dataStream,
-//             builder:(BuildContext context,snapshot){
-//               return Container(
-//                 height: MediaQuery.of(context).size.height*0.30,
-//                 width: MediaQuery.of(context).size.width,
-//                 child: Card(
-//                   color: Colors.blueAccent,
-//                   child: Container(
-//                     child: Column(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: <Widget>[
-//                         Text(
-//                             "Dddata",
-//                             style: TextStyle(
-//                                 color: Colors.white,
-//                                 fontSize: 22.0,
-//                                 fontWeight: FontWeight.bold
-//                             )
-//                         ),
-//                         Text(
-//                             "Data",
-//                             style: TextStyle(
-//                                 color: Colors.white,
-//                                 fontSize: 17.0,
-//                                 fontWeight: FontWeight.w600
-//                             )
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             }
-//         );
-//       }).toList(),
-//     );
-//   }
-//
-// }
-// class CarouselCard extends StatelessWidget {
-//   const CarouselCard({Key key, this.data}) : super(key: key);
-//   final data;
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           Text(
-//               "Dddata",
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 22.0,
-//                   fontWeight: FontWeight.bold
-//               )
-//           ),
-//           Text(
-//               "Data",
-//               style: TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 17.0,
-//                   fontWeight: FontWeight.w600
-//               )
-//           ),
-//         ],
-//       ),
-//     );
-//   }
 }
